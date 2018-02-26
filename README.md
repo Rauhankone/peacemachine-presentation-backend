@@ -5,6 +5,6 @@ This application handles all backend functionality of Peace Machine Presentation
 ## Setup
 
 ```
-$ npm install
-$ npm start
+$ npm install # or `yarn`
+$ npm dev # or `yarn run dev`
 ```
