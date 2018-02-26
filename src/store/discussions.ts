@@ -1,4 +1,5 @@
 import db from './db'
+
 const DISCUSSIONS_KEY = 'discussions'
 
 export const createDiscussion = (id: Discussion['id']) => {
@@ -15,7 +16,7 @@ export const createDiscussion = (id: Discussion['id']) => {
 
 export const updateDiscussion = (
   id: Discussion['id'],
-  propName: DiscussionProps,
+  propName: keyof Discussion,
   value: string
 ) => {
   db

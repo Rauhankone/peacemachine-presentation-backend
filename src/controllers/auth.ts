@@ -5,7 +5,7 @@ import * as watson from 'watson-developer-cloud'
 const auth: any = new watson.AuthorizationV1({
   username: process.env.W_USERNAME,
   password: process.env.W_PASSWORD,
-  url: watson.SpeechToTextV1.URL
+  url: 'https://stream.watsonplatform.net/speech-to-text/api'
 })
 
 const getAuthToken = () => {
@@ -27,6 +27,6 @@ export const getToken = async (
     const token = await getAuthToken()
     res.send({ token })
   } catch (error) {
-    res.send({ error })
+    res.status(401).send({ error })
   }
 }

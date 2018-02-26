@@ -7,6 +7,7 @@ const defaultState: ApplicationGlobalState = {
   recording: false
 }
 
+// writes a default object shape if no file exist yet.
 export const initStore = () => db.defaults(defaultState).write()
 
 export * from './discussions'
