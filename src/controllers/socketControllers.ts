@@ -1,7 +1,12 @@
 export const socketControllers: SocketControllers = {
   on: {
-    connected(data: any) {
-      console.log(data)
+    connected(context: eventHandlerContext) {
+      console.log(context.data)
+    },
+
+    channelData(context: eventHandlerContext) {
+      console.log('channelData')
+      context.io.emit('channelUpdated', context.data)
     }
   }
 }

@@ -23,7 +23,7 @@ export default class AppSocket {
         //listen for events
         for (let [key, value] of Object.entries(socketControllers.on)) {
           socket.on(key, (data: any) => {
-            console.log(key, data)
+            value.call(this, { data, io: this.connection, socket })
           })
         }
       }

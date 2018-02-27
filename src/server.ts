@@ -14,9 +14,6 @@ const server = new Server(app).listen(PORT, () => {
   )
 })
 
-// const io: SocketIO.Server = socketIo(server)
 const io = new AppSocket(socketIo, server)
-
-// Once the client connects...
 
 export default server
