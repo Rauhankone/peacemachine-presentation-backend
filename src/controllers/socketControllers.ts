@@ -6,7 +6,10 @@ export const socketControllers: SocketControllers = {
 
     channelData(context: eventHandlerContext) {
       console.log('channelData')
-      context.io.emit('channelUpdated', context.data)
+      context.io.emit('channelUpdated', {
+        id: context.socket.id,
+        ...context.data
+      })
     }
   }
 }
