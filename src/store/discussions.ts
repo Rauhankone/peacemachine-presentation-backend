@@ -5,9 +5,6 @@ const DISCUSSIONS_KEY = 'discussions'
 export const createDiscussion = (id: Discussion['id']) => {
   console.log('creating a discussion')
   const initDiscussion: Discussion = {
-    text: '',
-    wordCloud: null,
-    tones: null,
     active: true,
     id
   }
@@ -37,7 +34,7 @@ export const updateDiscussionText = (id: Discussion['id'], text: string) => {
     .get(DISCUSSIONS_KEY)
     .find({ id })
     .findKey('text')
-    .concat(['textii '])
+
     .write()
 }
 

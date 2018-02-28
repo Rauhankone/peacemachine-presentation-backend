@@ -10,14 +10,15 @@ export const socketControllers: SocketControllers = {
   on: {
     connected(context: eventHandlerContext) {
       createDiscussion(context.socket.id)
-      console.log(context.data)
+
+      if (context.data.viewName === 'input') {
+        context.io.emit('channelInitialized', {
+          id: context.socket.id
+        })
+      }
     },
 
     channelData(context: eventHandlerContext) {
-      console.log(context.data)
-
-      updateDiscussionText(context.socket.id, context.data.transcript)
-      console.log('getdisc', getDiscussion(context.socket.id))
       console.log('channelData')
       context.io.emit('channelUpdated', {
         id: context.socket.id,
