@@ -1,6 +1,7 @@
 import * as socketIo from 'socket.io'
 import { Server } from 'http'
 import { socketControllers } from './controllers/socketControllers'
+import { updateDiscussion } from './store'
 
 // export const io = socketIo(server)
 export default class AppSocket {
@@ -12,13 +13,18 @@ export default class AppSocket {
   }
 
   private init() {
-    // this.createMiddlewares()
+    this.createMiddlewares()
     this.createEvents(socketControllers)
   }
 
   public createEvents(socketControllers?: SocketControllers) {
-    this.connection.on('connection', (socket: any) => {
-      console.log(`connection with socket established. ID:${socket.id}`)
+    this.connection.on('connection', (socket: SocketIO.Socket) => {
+      console.log(
+        `connection with socket established. ID: ${socket.id} viewName: ${
+          socket.handshake.query.viewName
+        }`
+      )
+
       if (socketControllers.on) {
         //listen for events
         for (let [eventName, eventListener] of Object.entries(
@@ -41,13 +47,17 @@ export default class AppSocket {
 
       // common disconnect events emmited by the socket
       for (let ds of ['disconnect', 'connect_timeout', 'error'] as string[]) {
-        socket.on(ds, (event: any) =>
+        socket.on(ds, (event: any) => {
+          console.log(socket.handshake.query.viewName)
+          if (socket.handshake.query.viewName === 'input') {
+            updateDiscussion(socket.id, 'active', false)
+          }
           console.log(
             `socket(${
-              socket.id
+              socket.handshake.query.viewName
             }) sent \`${ds}\` event with response of '${event}'`
           )
-        )
+        })
       }
     })
   }
@@ -55,8 +65,6 @@ export default class AppSocket {
   private createMiddlewares() {
     // register the view connection
     this.connection.use((socket, next) => {
-      const referer = socket.handshake.headers.referer.split('/')
-
       next()
     })
   }

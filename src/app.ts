@@ -23,6 +23,7 @@ import * as Discussion from './controllers/discussion'
 const app = express()
 
 app.set('port', process.env.PORT || 8080)
+app.set('env', process.env.NODE_ENV || 'development')
 app.use(logger('dev'))
 app.use(cookieParser())
 app.use(bodyParser.json())

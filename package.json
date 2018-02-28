@@ -5,7 +5,8 @@
   "scripts": {
     "watch-ts": "tsc -w",
     "build-ts": "tsc",
-    "serve-debug": "nodemon -e ts --watch src dist/server.js",
+    "serve-debug":
+      "NODE_ENV=development nodemon -e ts --watch src dist/server.js",
     "test": "jest --forceExit --coverage --verbose --watch",
     "dev":
       "concurrently -k -p \"{name}\" -n \"ts,node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",

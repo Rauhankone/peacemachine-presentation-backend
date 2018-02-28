@@ -21,7 +21,7 @@ export const createDiscussion = (id: Discussion['id']) => {
 export const updateDiscussion = (
   id: Discussion['id'],
   propName: keyof Discussion,
-  value: string
+  value: any
 ) => {
   console.log('updated discussion')
   db
@@ -31,14 +31,11 @@ export const updateDiscussion = (
     .write()
 }
 
-export const updateDiscussionText = (id: Discussion['id'], text: string) => {
-  console.log('updateDiscussionText')
-
+export const removeDiscussions = (criteria: any) => {
+  console.log('remove discussions')
   db
     .get(DISCUSSIONS_KEY)
-    .find({ id })
-    .findKey('text')
-
+    .remove(criteria)
     .write()
 }
 

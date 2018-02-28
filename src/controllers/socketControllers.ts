@@ -1,20 +1,17 @@
 import {
   createDiscussion,
   updateDiscussion,
-  getDiscussion,
-  updateDiscussionText
+  getDiscussion
 } from '../store/discussions'
 
 export const socketControllers: SocketControllers = {
   on: {
-    connected(context: eventHandlerContext) {
+    channelCreated(context: eventHandlerContext) {
       createDiscussion(context.socket.id)
 
-      if (context.data.viewName === 'input') {
-        context.io.emit('channelInitialized', {
-          id: context.socket.id
-        })
-      }
+      context.socket.broadcast.emit('channelInitialized', {
+        id: context.socket.id
+      })
     },
 
     channelData(context: eventHandlerContext) {
