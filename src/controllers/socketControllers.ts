@@ -4,7 +4,6 @@ import {
   getDiscussion,
   updateDiscussionText
 } from '../store/discussions'
-import { debounce } from 'lodash/fp'
 
 export const socketControllers: SocketControllers = {
   on: {
@@ -19,11 +18,12 @@ export const socketControllers: SocketControllers = {
     },
 
     channelData(context: eventHandlerContext) {
-      console.log('channelData')
       context.io.emit('channelUpdated', {
         id: context.socket.id,
         ...context.data
       })
+
+      updateDiscussion(context.socket.id, 'text', context.data.fullTranscript)
     }
   }
 }

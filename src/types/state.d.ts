@@ -1,6 +1,9 @@
 type DiscussionProps = keyof Discussion
 
 interface Discussion {
+  text: string
+  wordCloud: any
+  tones: any
   active: boolean
   id: string
 }

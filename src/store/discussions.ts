@@ -5,6 +5,9 @@ const DISCUSSIONS_KEY = 'discussions'
 export const createDiscussion = (id: Discussion['id']) => {
   console.log('creating a discussion')
   const initDiscussion: Discussion = {
+    text: '',
+    wordCloud: null,
+    tones: null,
     active: true,
     id
   }
@@ -20,6 +23,7 @@ export const updateDiscussion = (
   propName: keyof Discussion,
   value: string
 ) => {
+  console.log('updated discussion')
   db
     .get(DISCUSSIONS_KEY)
     .find({ id })
@@ -43,3 +47,5 @@ export const getDiscussion = (id: Discussion['id']) =>
     .get(DISCUSSIONS_KEY)
     .find({ id })
     .value()
+
+export const getAllDiscussions = () => db.get(DISCUSSIONS_KEY).value()

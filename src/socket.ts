@@ -21,9 +21,11 @@ export default class AppSocket {
       console.log(`connection with socket established. ID:${socket.id}`)
       if (socketControllers.on) {
         //listen for events
-        for (let [key, value] of Object.entries(socketControllers.on)) {
-          socket.on(key, (data: any) => {
-            value.call(this, { data, io: this.connection, socket })
+        for (let [eventName, eventListener] of Object.entries(
+          socketControllers.on
+        )) {
+          socket.on(eventName, (data: any) => {
+            eventListener.call(this, { data, io: this.connection, socket })
           })
         }
       }
@@ -40,7 +42,11 @@ export default class AppSocket {
       // common disconnect events emmited by the socket
       for (let ds of ['disconnect', 'connect_timeout', 'error'] as string[]) {
         socket.on(ds, (event: any) =>
-          console.log(`socket sent \`${ds}\` event with response of '${event}'`)
+          console.log(
+            `socket(${
+              socket.id
+            }) sent \`${ds}\` event with response of '${event}'`
+          )
         )
       }
     })
