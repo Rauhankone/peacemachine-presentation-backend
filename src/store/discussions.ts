@@ -3,15 +3,19 @@ import db from './db'
 const DISCUSSIONS_KEY = 'discussions'
 
 export const createDiscussion = (id: Discussion['id']) => {
+  console.log('creating a discussion')
   const initDiscussion: Discussion = {
     text: '',
     wordCloud: null,
     tones: null,
-    active: false,
+    active: true,
     id
   }
 
-  db.get(DISCUSSIONS_KEY).push(initDiscussion)
+  db
+    .get(DISCUSSIONS_KEY)
+    .push(initDiscussion)
+    .write()
 }
 
 export const updateDiscussion = (
@@ -23,6 +27,17 @@ export const updateDiscussion = (
     .get(DISCUSSIONS_KEY)
     .find({ id })
     .set(propName, value)
+    .write()
+}
+
+export const updateDiscussionText = (id: Discussion['id'], text: string) => {
+  console.log('updateDiscussionText')
+
+  db
+    .get(DISCUSSIONS_KEY)
+    .find({ id })
+    .findKey('text')
+    .concat(['textii '])
     .write()
 }
 

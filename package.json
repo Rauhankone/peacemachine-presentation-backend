@@ -8,7 +8,11 @@
     "serve-debug": "nodemon -e ts --watch src dist/server.js",
     "test": "jest --forceExit --coverage --verbose --watch",
     "dev":
-      "concurrently  -p \"{name}\" -n \"ts,node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
+      "concurrently -k -p \"{name}\" -n \"ts,node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
+    "precommit": "node_modules/.bin/lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,json,css,ts,md}": ["prettier --write", "git add"]
   },
   "dependencies": {
     "@types/cookie-parser": "^1.4.1",
@@ -46,7 +50,9 @@
     "@types/watson-developer-cloud": "^2.40.0",
     "chai": "^4.1.2",
     "concurrently": "^3.5.1",
+    "husky": "^0.14.3",
     "jest": "^22.4.0",
+    "lint-staged": "^7.0.0",
     "ts-jest": "^22.0.4",
     "ts-node": "^5.0.0",
     "typescript": "^2.7.2"
