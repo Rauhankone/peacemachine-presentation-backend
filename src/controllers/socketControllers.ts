@@ -1,14 +1,14 @@
 import {
   createDiscussion,
   updateDiscussion,
-  getDiscussion
+  getDiscussion,
+  getAllDiscussions
 } from '../store/discussions'
 
 export const socketControllers: SocketControllers = {
   on: {
     channelCreated(context: eventHandlerContext) {
       createDiscussion(context.socket.id)
-
       context.socket.broadcast.emit('channelInitialized', {
         id: context.socket.id
       })
@@ -30,10 +30,8 @@ export const socketControllers: SocketControllers = {
       updateDiscussion(context.socket.id, 'text', context.data.fullTranscript)
     },
 
-    disconnect(context: eventHandlerContext) {
-      context.socket.broadcast.emit('channelDisconnected', {
-        id: context.socket.id
-      })
+    directorViewInit(context: eventHandlerContext) {
+      context.socket.emit('directorViewInit', getAllDiscussions());
     }
   }
 }

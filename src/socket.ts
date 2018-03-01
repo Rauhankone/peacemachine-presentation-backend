@@ -1,7 +1,7 @@
 import * as socketIo from 'socket.io'
 import { Server } from 'http'
 import { socketControllers } from './controllers/socketControllers'
-import { updateDiscussion } from './store'
+import { updateDiscussion, removeDiscussions } from './store'
 
 // export const io = socketIo(server)
 export default class AppSocket {
@@ -56,7 +56,10 @@ export default class AppSocket {
         socket.on(ds, (event: any) => {
           console.log(socket.handshake.query.viewName)
           if (socket.handshake.query.viewName === 'input') {
-            updateDiscussion(socket.id, 'active', false)
+            removeDiscussions({ id: socket.id })
+            socket.broadcast.emit('channelDisconnected', {
+              id: socket.id
+            })
           }
           console.log(
             `socket(${
