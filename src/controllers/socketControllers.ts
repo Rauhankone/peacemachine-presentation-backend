@@ -14,6 +14,13 @@ export const socketControllers: SocketControllers = {
       })
     },
 
+    channelRecording(context: eventHandlerContext) {
+      updateDiscussion(context.socket.id, 'active', true)
+      context.socket.broadcast.emit('channelRecording', {
+        id: context.socket.id
+      })
+    },
+
     channelData(context: eventHandlerContext) {
       context.io.emit('channelUpdated', {
         id: context.socket.id,
