@@ -32,6 +32,12 @@ export default class AppSocket {
         )) {
           socket.on(eventName, (data: any) => {
             eventListener.call(this, { data, io: this.connection, socket })
+
+            console.log(
+              `${socket.handshake.query.viewName} view (${
+                socket.id
+              }) emitted event \'${eventName}\'`
+            )
           })
         }
       }
