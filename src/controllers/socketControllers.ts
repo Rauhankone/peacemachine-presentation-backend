@@ -21,6 +21,12 @@ export const socketControllers: SocketControllers = {
       })
 
       updateDiscussion(context.socket.id, 'text', context.data.fullTranscript)
+    },
+
+    disconnect(context: eventHandlerContext) {
+      context.socket.broadcast.emit('channelDisconnected', {
+        id: context.socket.id
+      })
     }
   }
 }
