@@ -49,7 +49,7 @@ export const socketControllers: SocketControllers = {
   },
 
   emit: {
-    directorInit(context: eventHandlerContext) {
+    initStoreProps(context: eventHandlerContext) {
       return {
         slides: getSlides(),
         channels: getAllDiscussions()
