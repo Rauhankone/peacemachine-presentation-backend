@@ -31,6 +31,7 @@ export const socketControllers: SocketControllers = {
     },
 
     channelCandidacyChanged(context: eventHandlerContext) {
+      console.log(context.data)
       updateDiscussion(context.data.id, 'candidate', context.data.candidate)
       context.io.emit('channelCandidacyUpdated', {
         ...context.data

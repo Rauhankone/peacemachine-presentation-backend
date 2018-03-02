@@ -2,6 +2,7 @@ import * as socketIo from 'socket.io'
 import { Server } from 'http'
 import { socketControllers } from './controllers/socketControllers'
 import { updateDiscussion, removeDiscussions, getAllDiscussions } from './store'
+import { getFunName } from './utils'
 
 // export const io = socketIo(server)
 export default class AppSocket {
@@ -25,7 +26,7 @@ export default class AppSocket {
         }`
       )
       if (socket.handshake.query.viewName === 'director') {
-        socket.emit('directorViewInit', getAllDiscussions());
+        socket.emit('directorViewInit', getAllDiscussions())
       }
 
       if (socketControllers.on) {
@@ -39,7 +40,7 @@ export default class AppSocket {
             console.log(
               `${socket.handshake.query.viewName} view (${
                 socket.id
-              }) emitted event \'${eventName}\'`
+              }) emitted event \'${eventName}\' `
             )
           })
         }
@@ -77,6 +78,7 @@ export default class AppSocket {
   private createMiddlewares() {
     // register the view connection
     this.connection.use((socket, next) => {
+      socket.id = `${getFunName()}-${socket.id}`
       next()
     })
   }
