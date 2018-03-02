@@ -1,11 +1,32 @@
 import db from './db'
 import nanoid from 'nanoid' // generates IDs
+import { Z_DEFAULT_COMPRESSION } from 'zlib'
 
 const defaultState: ApplicationGlobalState = {
   discussions: [],
   currentStage: 'uninitalized',
   recording: false,
-  presentationSlide: 'livetext'
+  presentationSlide: 'livetext',
+  slides: {
+    allSlides: [
+      {
+        name: 'live text'
+      },
+      {
+        name: 'sentiment analysis'
+      },
+      {
+        name: 'word cloud'
+      },
+      {
+        name: 'zoom tool'
+      },
+      {
+        name: 'loop'
+      }
+    ],
+    activeSlide: null
+  }
 }
 
 // writes a default object shape if no file exist yet.

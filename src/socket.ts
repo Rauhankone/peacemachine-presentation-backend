@@ -25,9 +25,9 @@ export default class AppSocket {
           socket.handshake.query.viewName
         }`
       )
-      if (socket.handshake.query.viewName === 'director') {
-        socket.emit('directorViewInit', getAllDiscussions())
-      }
+      // if (socket.handshake.query.viewName === 'director') {
+      //   socket.emit('directorViewInit', getAllDiscussions())
+      // }
 
       if (socketControllers.on) {
         //listen for events
@@ -48,10 +48,13 @@ export default class AppSocket {
 
       if (socketControllers.emit) {
         // broadcast events
-        for (let [key, value] of Object.entries(socketControllers.emit)) {
-          socket.emit(key, (data: any) => {
-            console.log(key, data)
-          })
+        for (let [eventName, eventHandler] of Object.entries(
+          socketControllers.emit
+        )) {
+          socket.emit(
+            eventName,
+            eventHandler.call(this, { io: this.connection, socket })
+          )
         }
       }
 

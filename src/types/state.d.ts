@@ -9,9 +9,19 @@ interface Discussion {
   id: string
 }
 
+interface Slide {
+  name: string
+}
+
+interface Slides {
+  allSlides: Slide[]
+  activeSlide: string
+}
+
 interface ApplicationGlobalState {
   discussions: Discussion[]
   currentStage: string
   recording: boolean
   presentationSlide: string
+  slides: Slides
 }

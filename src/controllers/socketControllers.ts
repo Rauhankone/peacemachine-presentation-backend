@@ -4,24 +4,25 @@ import {
   getDiscussion,
   getAllDiscussions
 } from '../store/discussions'
+import { getSlides, updateActiveSlide } from '../store/slides'
 
 export const socketControllers: SocketControllers = {
   on: {
-    channelCreated(context: eventHandlerContext) {
+    channelCreated(context: eventListenerContext) {
       createDiscussion(context.socket.id)
       context.socket.broadcast.emit('channelInitialized', {
         id: context.socket.id
       })
     },
 
-    channelRecording(context: eventHandlerContext) {
+    channelRecording(context: eventListenerContext) {
       updateDiscussion(context.socket.id, 'active', true)
       context.socket.broadcast.emit('channelRecording', {
         id: context.socket.id
       })
     },
 
-    channelData(context: eventHandlerContext) {
+    channelData(context: eventListenerContext) {
       context.io.emit('channelUpdated', {
         id: context.socket.id,
         ...context.data
@@ -30,7 +31,7 @@ export const socketControllers: SocketControllers = {
       updateDiscussion(context.socket.id, 'text', context.data.fullTranscript)
     },
 
-    channelCandidacyChanged(context: eventHandlerContext) {
+    channelCandidacyChanged(context: eventListenerContext) {
       console.log(context.data)
       updateDiscussion(context.data.id, 'candidate', context.data.candidate)
       context.io.emit('channelCandidacyUpdated', {
@@ -38,10 +39,21 @@ export const socketControllers: SocketControllers = {
       })
     },
 
-    changeSlide(context: eventHandlerContext) {
+    changeSlide(context: eventListenerContext) {
+      updateActiveSlide(context.data.slideName)
+
       context.io.emit('slideUpdated', {
         slideName: context.data.slideName
       })
+    }
+  },
+
+  emit: {
+    directorInit(context: eventHandlerContext) {
+      return {
+        slides: getSlides(),
+        channels: getAllDiscussions()
+      }
     }
   }
 }

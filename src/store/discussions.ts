@@ -46,4 +46,5 @@ export const getDiscussion = (id: Discussion['id']) =>
     .find({ id })
     .value()
 
-export const getAllDiscussions = () => db.get(DISCUSSIONS_KEY).value()
+export const getAllDiscussions = (): Discussion[] =>
+  db.get(DISCUSSIONS_KEY).value()
