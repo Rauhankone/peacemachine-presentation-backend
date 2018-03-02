@@ -30,16 +30,15 @@ export const socketControllers: SocketControllers = {
       updateDiscussion(context.socket.id, 'text', context.data.fullTranscript)
     },
 
-    channelCandidacyState(context: eventHandlerContext) {
-      updateDiscussion(context.socket.id, 'candidate', context.data.candidate)
+    channelCandidacyChanged(context: eventHandlerContext) {
+      updateDiscussion(context.data.id, 'candidate', context.data.candidate)
       context.io.emit('channelCandidacyUpdated', {
-        id: context.socket.id,
         ...context.data
       })
     },
 
     changeSlide(context: eventHandlerContext) {
-      context.socket.broadcast.emit('slideUpdated', {
+      context.io.emit('slideUpdated', {
         slideName: context.data.slideName
       })
     }
