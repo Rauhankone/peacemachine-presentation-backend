@@ -1,7 +1,7 @@
 import * as socketIo from 'socket.io'
 import { Server } from 'http'
 import { socketControllers } from './controllers/socketControllers'
-import { updateDiscussion, removeDiscussions } from './store'
+import { updateDiscussion, removeDiscussions, getAllDiscussions } from './store'
 
 // export const io = socketIo(server)
 export default class AppSocket {
@@ -24,6 +24,9 @@ export default class AppSocket {
           socket.handshake.query.viewName
         }`
       )
+      if (socket.handshake.query.viewName === 'director') {
+        socket.emit('directorViewInit', getAllDiscussions());
+      }
 
       if (socketControllers.on) {
         //listen for events

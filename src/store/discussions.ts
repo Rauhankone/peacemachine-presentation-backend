@@ -9,6 +9,7 @@ export const createDiscussion = (id: Discussion['id']) => {
     wordCloud: null,
     tones: null,
     active: false,
+    candidate: false,
     id
   }
 

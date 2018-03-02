@@ -5,6 +5,7 @@ interface Discussion {
   wordCloud: any
   tones: any
   active: boolean
+  candidate: boolean
   id: string
 }
 
@@ -12,4 +13,5 @@ interface ApplicationGlobalState {
   discussions: Discussion[]
   currentStage: string
   recording: boolean
+  presentationSlide: string
 }

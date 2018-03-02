@@ -30,8 +30,15 @@ export const socketControllers: SocketControllers = {
       updateDiscussion(context.socket.id, 'text', context.data.fullTranscript)
     },
 
-    directorViewInit(context: eventHandlerContext) {
-      context.socket.emit('directorViewInit', getAllDiscussions());
+    channelCandidacyState(context: eventHandlerContext) {
+      updateDiscussion(context.socket.id, 'candidate', context.data.candidate)
+
+    },
+
+    changeSlide(context: eventHandlerContext) {
+      context.socket.broadcast.emit('slideUpdated', {
+        slideName: context.data.slideName
+      })
     }
   }
 }
