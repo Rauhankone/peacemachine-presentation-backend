@@ -32,7 +32,10 @@ export const socketControllers: SocketControllers = {
 
     channelCandidacyState(context: eventHandlerContext) {
       updateDiscussion(context.socket.id, 'candidate', context.data.candidate)
-
+      context.io.emit('channelCandidacyUpdated', {
+        id: context.socket.id,
+        ...context.data
+      })
     },
 
     changeSlide(context: eventHandlerContext) {
