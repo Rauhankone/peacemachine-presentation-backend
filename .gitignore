@@ -59,6 +59,9 @@ typings/
 
 # Distribution build
 dist
+<<<<<<< HEAD
 
 # Application database
 db.json
+=======
+>>>>>>> origin/master
