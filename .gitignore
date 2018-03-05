@@ -58,6 +58,8 @@ coverage
 # dotenv environment variables file
 .env
 
+# dist folder
+dist/
 
 # Application database
 db.json
