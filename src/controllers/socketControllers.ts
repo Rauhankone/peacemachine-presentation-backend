@@ -51,6 +51,7 @@ export const socketControllers: SocketControllers = {
   emit: {
     initStoreProps(context: eventHandlerContext) {
       return {
+        id: context.socket.id,
         slides: getSlides(),
         channels: getAllDiscussions()
       }
