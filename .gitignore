@@ -58,7 +58,7 @@ typings/
 .env
 
 # Distribution build
-dist
+dist/
 
 # Application database
 db.json
