@@ -4,7 +4,7 @@ interface Discussion {
   text: string
   wordCloud: any
   tones: any
-  active: boolean
+  recording: boolean
   candidate: boolean
   id: string
 }
