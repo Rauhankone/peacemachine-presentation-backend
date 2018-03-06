@@ -5,15 +5,16 @@
   "scripts": {
     "watch-ts": "tsc -w",
     "build-ts": "tsc",
-    "serve-debug":
-      "NODE_ENV=development nodemon -e ts --watch src dist/server.js",
+    "serve-debug": "NODE_ENV=development nodemon -e ts --watch src dist/server.js",
     "test": "jest --forceExit --coverage --verbose --watch",
-    "dev":
-      "concurrently -k -p \"{name}\" -n \"ts,node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
+    "dev": "concurrently -k -p \"{name}\" -n \"ts,node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
     "precommit": "node_modules/.bin/lint-staged"
   },
   "lint-staged": {
-    "*.{js,json,css,ts,md}": ["prettier --write", "git add"]
+    "*.{js,json,css,ts,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "@types/cookie-parser": "^1.4.1",
@@ -36,6 +37,7 @@
     "morgan": "~1.9.0",
     "nanoid": "^1.0.2",
     "nodemon": "^1.15.1",
+    "prettier": "^1.11.1",
     "serve-favicon": "~2.4.5",
     "socket.io": "^2.0.4",
     "supertest": "^3.0.0",
