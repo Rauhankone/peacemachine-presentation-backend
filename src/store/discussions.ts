@@ -1,10 +1,10 @@
 import db from './db'
 
-const DISCUSSIONS_KEY = 'discussions'
+const CHANNELS_KEY = 'discussions'
 
-export const createDiscussion = (id: Discussion['id']) => {
+export const createDiscussion = (id: Channel['id']) => {
   console.log('creating a discussion')
-  const initDiscussion: Discussion = {
+  const initDiscussion: Channel = {
     text: '',
     wordCloud: null,
     tones: null,
@@ -14,19 +14,19 @@ export const createDiscussion = (id: Discussion['id']) => {
   }
 
   db
-    .get(DISCUSSIONS_KEY)
+    .get(CHANNELS_KEY)
     .push(initDiscussion)
     .write()
 }
 
 export const updateDiscussion = (
-  id: Discussion['id'],
-  propName: keyof Discussion,
+  id: Channel['id'],
+  propName: keyof Channel,
   value: any
 ) => {
   console.log('updated discussion')
   db
-    .get(DISCUSSIONS_KEY)
+    .get(CHANNELS_KEY)
     .find({ id })
     .set(propName, value)
     .write()
@@ -35,16 +35,15 @@ export const updateDiscussion = (
 export const removeDiscussions = (criteria: any) => {
   console.log('remove discussions')
   db
-    .get(DISCUSSIONS_KEY)
+    .get(CHANNELS_KEY)
     .remove(criteria)
     .write()
 }
 
-export const getDiscussion = (id: Discussion['id']) =>
+export const getDiscussion = (id: Channel['id']) =>
   db
-    .get(DISCUSSIONS_KEY)
+    .get(CHANNELS_KEY)
     .find({ id })
     .value()
 
-export const getAllDiscussions = (): Discussion[] =>
-  db.get(DISCUSSIONS_KEY).value()
+export const getAllDiscussions = (): Channel[] => db.get(CHANNELS_KEY).value()

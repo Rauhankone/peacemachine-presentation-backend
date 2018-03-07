@@ -3,7 +3,7 @@ import nanoid from 'nanoid' // generates IDs
 import { Z_DEFAULT_COMPRESSION } from 'zlib'
 
 const defaultState: ApplicationGlobalState = {
-  discussions: [],
+  channels: [],
   currentStage: 'uninitalized',
   recording: false,
   presentationSlide: 'livetext',

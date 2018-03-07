@@ -1,6 +1,6 @@
-type DiscussionProps = keyof Discussion
+type ChannelProps = keyof Channel
 
-interface Discussion {
+interface Channel {
   text: string
   wordCloud: any
   tones: any
@@ -19,7 +19,7 @@ interface Slides {
 }
 
 interface ApplicationGlobalState {
-  discussions: Discussion[]
+  channels: Channel[]
   currentStage: string
   recording: boolean
   presentationSlide: string

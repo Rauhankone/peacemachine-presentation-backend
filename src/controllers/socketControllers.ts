@@ -7,6 +7,14 @@ import {
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 import { getSlides, updateActiveSlide } from '../store/slides'
 
+// TODO: Move this out of here
+const toneAnalyzer = new ToneAnalyzerV3({
+  username: process.env.W_TA_USERNAME,
+  password: process.env.W_TA_PASSWORD,
+  version_date: '2016-05-19',
+  url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
+})
+
 export const socketControllers: SocketControllers = {
   on: {
     channelCreated(context: eventListenerContext) {
@@ -23,29 +31,25 @@ export const socketControllers: SocketControllers = {
         id: context.socket.id
       })
 
-      // Move this out of here
-      const toneAnalyzer = new ToneAnalyzerV3({
-        username: process.env.W_TA_USERNAME,
-        password: process.env.W_TA_PASSWORD,
-        version_date: '2016-05-19',
-        url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
-      })
-
-      toneAnalyzer.tone({
-        tone_input: getDiscussion(context.socket.id).text,
-        content_type: 'text/plain'
-      }, (err: any, tone: any) => {
-        if (err) {
-          console.log(err)
-        } else {
-          const analyzedString = JSON.stringify(tone, null, 2)
-          context.io.emit('toneAnalyzeComplete', {
-            id: context.socket.id,
-            analyzeObject: tone
-          })
-        }
-      })
-
+      if (!context.data.recording) {
+        toneAnalyzer.tone(
+          {
+            tone_input: getDiscussion(context.socket.id).text,
+            content_type: 'text/plain'
+          },
+          (err: any, tone: any) => {
+            if (err) {
+              console.log(err)
+            } else {
+              const analyzedString = JSON.stringify(tone, null, 2)
+              context.io.emit('toneAnalyzeComplete', {
+                id: context.socket.id,
+                analyzeObject: tone
+              })
+            }
+          }
+        )
+      }
     },
 
     channelData(context: eventListenerContext) {
@@ -59,6 +63,7 @@ export const socketControllers: SocketControllers = {
 
     channelCandidacyChanged(context: eventListenerContext) {
       updateDiscussion(context.data.id, 'candidate', context.data.candidate)
+
       context.io.emit('channelCandidacyUpdated', {
         ...context.data
       })
