@@ -1,7 +1,9 @@
+import { transform } from 'is-stream'
+
 type ChannelProps = keyof Channel
 
 interface Channel {
-  text: string
+  transcript: string
   wordCloud: any
   tones: any
   recording: boolean
@@ -24,4 +26,12 @@ interface ApplicationGlobalState {
   recording: boolean
   presentationSlide: string
   slides: Slides
+  mess: Mess[]
+}
+
+interface Mess {
+  id: string
+  timestamp: number
+  transcript: string
+  confidence: number
 }

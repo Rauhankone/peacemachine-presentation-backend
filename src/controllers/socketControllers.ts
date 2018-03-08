@@ -4,6 +4,7 @@ import {
   getDiscussion,
   getAllDiscussions
 } from '../store/discussions'
+import { createMess, appendToMess, getMess } from '../store/mess'
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 import { getSlides, updateActiveSlide } from '../store/slides'
 
@@ -22,6 +23,9 @@ export const socketControllers: SocketControllers = {
       context.socket.broadcast.emit('channelInitialized', {
         id: context.socket.id
       })
+      if (!getMess()) {
+        createMess()
+      }
     },
 
     channelRecordingState(context: eventListenerContext) {
@@ -34,7 +38,7 @@ export const socketControllers: SocketControllers = {
       if (!context.data.recording) {
         toneAnalyzer.tone(
           {
-            tone_input: getDiscussion(context.socket.id).text,
+            tone_input: getDiscussion(context.socket.id).transcript,
             content_type: 'text/plain'
           },
           (err: any, tone: any) => {
@@ -57,8 +61,15 @@ export const socketControllers: SocketControllers = {
         id: context.socket.id,
         ...context.data
       })
-
-      updateDiscussion(context.socket.id, 'text', context.data.fullTranscript)
+      appendToMess({
+        transcript: context.data.transcript,
+        confidence: context.data.confidence
+      })
+      updateDiscussion(
+        context.socket.id,
+        'transcript',
+        context.data.fullTranscript
+      )
     },
 
     channelCandidacyChanged(context: eventListenerContext) {

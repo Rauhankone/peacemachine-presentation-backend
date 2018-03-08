@@ -7,6 +7,7 @@ const defaultState: ApplicationGlobalState = {
   currentStage: 'uninitalized',
   recording: false,
   presentationSlide: 'livetext',
+  mess: [],
   slides: {
     allSlides: [
       {

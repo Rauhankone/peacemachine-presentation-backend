@@ -1,11 +1,11 @@
 import db from './db'
 
-const CHANNELS_KEY = 'discussions'
+const CHANNELS_KEY = 'channels'
 
 export const createDiscussion = (id: Channel['id']) => {
   console.log('creating a discussion')
   const initDiscussion: Channel = {
-    text: '',
+    transcript: '',
     wordCloud: null,
     tones: null,
     recording: false,
@@ -40,7 +40,7 @@ export const removeDiscussions = (criteria: any) => {
     .write()
 }
 
-export const getDiscussion = (id: Channel['id']) =>
+export const getDiscussion = (id: Channel['id']): Channel =>
   db
     .get(CHANNELS_KEY)
     .find({ id })
