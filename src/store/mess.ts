@@ -1,6 +1,6 @@
 import db from './db'
 
-const MESS_KEY = 'mess'
+const MESS_KEY: keyof ApplicationGlobalState = 'mess'
 
 export const createMess = (messObj: Mess) => {
   console.log('creating a mess')
@@ -11,17 +11,12 @@ export const createMess = (messObj: Mess) => {
     .write()
 }
 
-export const appendToMess = (discussionObj: any) => {
-  let tempArr = getMess()
-  if (!tempArr) {
-    console.log('Mess not found in database!')
-    return
-  }
-  tempArr.push(discussionObj)
+export const getMess = (): any[] => db.get(MESS_KEY).value()
+
+export const removeMess = (criteria: any) => {
+  console.log('remove mess object/all objects')
   db
     .get(MESS_KEY)
-    .set('messObjArr', tempArr)
+    .remove(criteria)
     .write()
 }
-
-export const getMess = (): any[] => db.get(MESS_KEY).value()

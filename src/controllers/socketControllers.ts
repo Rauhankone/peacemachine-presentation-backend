@@ -4,7 +4,7 @@ import {
   getChannel,
   getAllChannels
 } from '../store/channels'
-import { createMess, appendToMess, getMess } from '../store/mess'
+import { createMess, getMess } from '../store/mess'
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 import { getSlides, updateActiveSlide } from '../store/slides'
 
@@ -57,6 +57,13 @@ export const socketControllers: SocketControllers = {
       context.io.emit('channelUpdated', {
         id: context.socket.id,
         ...context.data
+      })
+
+      createMess({
+        id: context.socket.id,
+        timestamp: Date.now(),
+        transcript: context.data.transcript,
+        confidence: context.data.confidence
       })
 
       updateChannel(

@@ -22,7 +22,6 @@ interface ApplicationGlobalState {
   channels: Channel[]
   currentStage: string
   recording: boolean
-  presentationSlide: string
   slides: Slides
   mess: Mess[]
 }
