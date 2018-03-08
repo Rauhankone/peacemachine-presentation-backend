@@ -1,8 +1,8 @@
 import {
-  createDiscussion,
-  updateDiscussion,
-  getDiscussion,
-  getAllDiscussions
+  createChannel,
+  updateChannel,
+  getChannel,
+  getAllChannels
 } from '../store/discussions'
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 import { getSlides, updateActiveSlide } from '../store/slides'
@@ -18,14 +18,14 @@ const toneAnalyzer = new ToneAnalyzerV3({
 export const socketControllers: SocketControllers = {
   on: {
     channelCreated(context: eventListenerContext) {
-      createDiscussion(context.socket.id)
+      createChannel(context.socket.id)
       context.socket.broadcast.emit('channelInitialized', {
         id: context.socket.id
       })
     },
 
     channelRecordingState(context: eventListenerContext) {
-      updateDiscussion(context.socket.id, 'recording', context.data.recording)
+      updateChannel(context.socket.id, 'recording', context.data.recording)
       context.socket.broadcast.emit('channelRecordingChange', {
         recording: context.data.recording,
         id: context.socket.id
@@ -34,7 +34,7 @@ export const socketControllers: SocketControllers = {
       if (!context.data.recording) {
         toneAnalyzer.tone(
           {
-            tone_input: getDiscussion(context.socket.id).text,
+            tone_input: getChannel(context.socket.id).transcript,
             content_type: 'text/plain'
           },
           (err: any, tone: any) => {
@@ -58,11 +58,15 @@ export const socketControllers: SocketControllers = {
         ...context.data
       })
 
-      updateDiscussion(context.socket.id, 'text', context.data.fullTranscript)
+      updateChannel(
+        context.socket.id,
+        'transcript',
+        context.data.fullTranscript
+      )
     },
 
     channelCandidacyChanged(context: eventListenerContext) {
-      updateDiscussion(context.data.id, 'candidate', context.data.candidate)
+      updateChannel(context.data.id, 'candidate', context.data.candidate)
 
       context.io.emit('channelCandidacyUpdated', {
         ...context.data
@@ -83,7 +87,7 @@ export const socketControllers: SocketControllers = {
       return {
         id: context.socket.id,
         slides: getSlides(),
-        channels: getAllDiscussions()
+        channels: getAllChannels()
       }
     }
   }

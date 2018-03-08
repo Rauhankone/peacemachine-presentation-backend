@@ -1,7 +1,7 @@
 type ChannelProps = keyof Channel
 
 interface Channel {
-  text: string
+  transcript: string
   wordCloud: any
   tones: any
   recording: boolean

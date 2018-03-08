@@ -1,3 +1,5 @@
+import nanoid from 'nanoid'
+
 export function rando(arr: string[]) {
   return arr[Math.floor(Math.random() * arr.length)]
 }
@@ -76,4 +78,15 @@ export function getFunName() {
   ]
 
   return `${rando(adjectives)}-${rando(adjectives)}-${rando(nouns)}`
+}
+
+export const fakeChannelData = () => {
+  // const id = nanoid()
+
+  // console.log(id)
+  return {
+    id: nanoid(),
+    transcript: nanoid(),
+    confidence: Math.random()
+  }
 }

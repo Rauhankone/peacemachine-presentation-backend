@@ -1,6 +1,6 @@
 import db from './db'
 
-const SLIDES_KEY = 'slides'
+const SLIDES_KEY: keyof ApplicationGlobalState = 'slides'
 
 export const getSlides = (): any[] => db.get(SLIDES_KEY).value()
 
