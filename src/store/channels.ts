@@ -8,7 +8,7 @@ export const createChannel = (id: Channel['id']) => {
     transcript: '',
     wordCloud: null,
     tones: null,
-    recording: false,
+    recording: null,
     candidate: false,
     id
   }

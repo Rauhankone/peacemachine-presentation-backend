@@ -3,8 +3,8 @@ type ChannelProps = keyof Channel
 interface Channel {
   transcript: string
   wordCloud: any
-  tones: any
-  recording: boolean
+  tones: object
+  recording: string
   candidate: boolean
   id: string
 }
@@ -15,7 +15,14 @@ interface Slide {
 
 interface Slides {
   allSlides: Slide[]
-  activeSlide: string
+  activeSlide: Slide['name']
+}
+
+interface Mess {
+  id: string
+  timestamp: number
+  transcript: string
+  confidence: number
 }
 
 interface ApplicationGlobalState {
@@ -24,11 +31,4 @@ interface ApplicationGlobalState {
   recording: boolean
   slides: Slides
   mess: Mess[]
-}
-
-interface Mess {
-  id: string
-  timestamp: number
-  transcript: string
-  confidence: number
 }

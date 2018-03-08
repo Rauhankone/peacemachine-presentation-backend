@@ -32,22 +32,21 @@ export const socketControllers: SocketControllers = {
         id: context.socket.id
       })
 
-      if (!context.data.recording) {
+      if (context.data.recording === 'finished') {
         toneAnalyzer.tone(
           {
             tone_input: getChannel(context.socket.id).transcript,
             content_type: 'text/plain'
           },
-          (err: any, tone: any) => {
-            if (err) {
-              console.log(err)
-            } else {
-              const analyzedString = JSON.stringify(tone, null, 2)
-              context.io.emit('toneAnalyzeComplete', {
-                id: context.socket.id,
-                analyzeObject: tone
-              })
-            }
+          (err: any, tone: object) => {
+            if (err) return console.error(err)
+
+            updateChannel(context.socket.id, 'tones', tone)
+
+            context.socket.emit('toneAnalyzeComplete', {
+              id: context.socket.id,
+              analyzeObject: tone
+            })
           }
         )
       }
