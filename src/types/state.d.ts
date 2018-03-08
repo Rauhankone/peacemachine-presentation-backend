@@ -1,5 +1,3 @@
-import { transform } from 'is-stream'
-
 type ChannelProps = keyof Channel
 
 interface Channel {
