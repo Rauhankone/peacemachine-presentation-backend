@@ -15,7 +15,7 @@ dotenv.config({ path: '.env' })
  */
 import * as Home from './controllers/home'
 import * as Auth from './controllers/auth'
-import * as Discussion from './controllers/discussion'
+import * as Discussion from './controllers/channels'
 
 /**
  * Express configuration

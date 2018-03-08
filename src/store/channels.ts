@@ -1,10 +1,10 @@
 import db from './db'
 
-const CHANNELS_KEY = 'channels'
+const CHANNELS_KEY: keyof ApplicationGlobalState = 'channels'
 
-export const createDiscussion = (id: Channel['id']) => {
+export const createChannel = (id: Channel['id']) => {
   console.log('creating a discussion')
-  const initDiscussion: Channel = {
+  const initChannel: Channel = {
     transcript: '',
     wordCloud: null,
     tones: null,
@@ -15,11 +15,11 @@ export const createDiscussion = (id: Channel['id']) => {
 
   db
     .get(CHANNELS_KEY)
-    .push(initDiscussion)
+    .push(initChannel)
     .write()
 }
 
-export const updateDiscussion = (
+export const updateChannel = (
   id: Channel['id'],
   propName: keyof Channel,
   value: any
@@ -32,7 +32,7 @@ export const updateDiscussion = (
     .write()
 }
 
-export const removeDiscussions = (criteria: any) => {
+export const removeChannels = (criteria: any) => {
   console.log('remove discussions')
   db
     .get(CHANNELS_KEY)
@@ -40,10 +40,10 @@ export const removeDiscussions = (criteria: any) => {
     .write()
 }
 
-export const getDiscussion = (id: Channel['id']): Channel =>
+export const getChannel = (id: Channel['id']): Channel =>
   db
     .get(CHANNELS_KEY)
     .find({ id })
     .value()
 
-export const getAllDiscussions = (): Channel[] => db.get(CHANNELS_KEY).value()
+export const getAllChannels = (): Channel[] => db.get(CHANNELS_KEY).value()

@@ -33,4 +33,4 @@ const defaultState: ApplicationGlobalState = {
 // writes a default object shape if no file exist yet.
 export const initStore = () => db.defaults(defaultState).write()
 
-export * from './discussions'
+export * from './channels'
