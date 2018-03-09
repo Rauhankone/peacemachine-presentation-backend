@@ -65,8 +65,12 @@ export const getChannel = (id: Channel['id']): Channel =>
  * @desc Gets all channel objects based on criteria.
  * If no criteria provided, the function returns all the channels on the store
  */
-export const getAllChannels = (criteria?: object): Channel[] =>
-  db
-    .get(CHANNELS_KEY)
-    .find(criteria)
-    .value()
+export const getBulkChannels = (criteria?: object): Channel[] => {
+  if (criteria)
+    return db
+      .get(CHANNELS_KEY)
+      .find(criteria)
+      .value()
+
+  return db.get(CHANNELS_KEY).value()
+}

@@ -2,7 +2,7 @@ import {
   createChannel,
   updateChannel,
   getChannel,
-  getAllChannels
+  getBulkChannels
 } from '../store/channels'
 import { createMess, getMess } from '../store/mess'
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
@@ -40,14 +40,14 @@ export const socketControllers: SocketControllers = {
               tone_input: channel.transcript,
               content_type: 'text/plain'
             },
-            (err: any, tone: object) => {
+            (err: any, toneAnalysis: ToneAnalysis) => {
               if (err) return console.error(err)
 
-              updateChannel(context.socket.id, 'tones', tone)
+              updateChannel(context.socket.id, 'tones', toneAnalysis)
 
               context.socket.emit('toneAnalyzeComplete', {
                 id: context.socket.id,
-                analyzeObject: tone
+                analyzeObject: toneAnalysis
               })
             }
           )
@@ -88,7 +88,9 @@ export const socketControllers: SocketControllers = {
       context.io.emit('slideUpdated', {
         slideName: context.data.slideName
       })
-    }
+    },
+
+    mergeTonesToMess(context: eventListenerContext) {}
   },
 
   emit: {
@@ -96,7 +98,7 @@ export const socketControllers: SocketControllers = {
       return {
         id: context.socket.id,
         slides: getSlides(),
-        channels: getAllChannels(),
+        channels: getBulkChannels(),
         mess: getMess()
       }
     }

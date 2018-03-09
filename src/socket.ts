@@ -1,7 +1,7 @@
 import * as socketIo from 'socket.io'
 import { Server } from 'http'
 import { socketControllers } from './controllers/socketControllers'
-import { updateChannel, removeChannels, getAllChannels } from './store'
+import { updateChannel, removeChannels, getBulkChannels } from './store'
 import { getFunName } from './utils'
 
 // export const io = socketIo(server)
