@@ -96,7 +96,8 @@ export const socketControllers: SocketControllers = {
       return {
         id: context.socket.id,
         slides: getSlides(),
-        channels: getAllChannels()
+        channels: getAllChannels(),
+        mess: getMess()
       }
     }
   }
