@@ -4,7 +4,7 @@ import {
   getChannel,
   getBulkChannels
 } from '../store/channels'
-import { createMess, getMess } from '../store/mess'
+import { createMess, getMess, updateMess } from '../store/mess'
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 import { getSlides, updateActiveSlide } from '../store/slides'
 
@@ -40,7 +40,7 @@ export const socketControllers: SocketControllers = {
               tone_input: channel.transcript,
               content_type: 'text/plain'
             },
-            (err: any, toneAnalysis: ToneAnalysis) => {
+            (err: any, toneAnalysis: ToneAnalyzerV3.ToneAnalysis) => {
               if (err) return console.error(err)
 
               updateChannel(context.socket.id, 'tones', toneAnalysis)

@@ -3,7 +3,7 @@ type ChannelProps = keyof Channel
 interface Channel {
   transcript: string
   wordCloud: any
-  tones: object
+  tones: ToneAnalyzerV3.ToneAnalysis
   recording: string
   candidate: boolean
   id: string
@@ -23,6 +23,7 @@ interface Mess {
   timestamp: number
   transcript: string
   confidence: number
+  tones?: ToneAnalyzerV3.SentenceAnalysis
 }
 
 interface ApplicationGlobalState {

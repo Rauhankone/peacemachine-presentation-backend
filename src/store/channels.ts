@@ -43,7 +43,7 @@ export const updateChannel = (
  * @desc Removes channel based on criteria. If no criteria provied,
  * removes everything
  */
-export const removeChannels = (criteria: any) => {
+export const removeChannels = (criteria: { [key in keyof Channel]?: any }) => {
   console.log('remove discussions')
   db
     .get(CHANNELS_KEY)
@@ -65,11 +65,13 @@ export const getChannel = (id: Channel['id']): Channel =>
  * @desc Gets all channel objects based on criteria.
  * If no criteria provided, the function returns all the channels on the store
  */
-export const getBulkChannels = (criteria?: object): Channel[] => {
+export const getBulkChannels = (
+  criteria?: { [key in keyof Channel]?: any }
+): Channel[] => {
   if (criteria)
     return db
       .get(CHANNELS_KEY)
-      .find(criteria)
+      .filter(criteria)
       .value()
 
   return db.get(CHANNELS_KEY).value()
