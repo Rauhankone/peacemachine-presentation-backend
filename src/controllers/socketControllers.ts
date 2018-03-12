@@ -4,7 +4,12 @@ import {
   getChannel,
   getBulkChannels
 } from '../store/channels'
-import { createMess, getMess, updateMess } from '../store/mess'
+import {
+  createMess,
+  getMess,
+  updateMess,
+  populateMessWithTones
+} from '../store/mess'
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 import { getSlides, updateActiveSlide } from '../store/slides'
 
@@ -90,7 +95,24 @@ export const socketControllers: SocketControllers = {
       })
     },
 
-    mergeTonesToMess(context: eventListenerContext) {}
+    mergeTonesToMess(context: eventListenerContext) {
+      let tonesById = getBulkChannels().reduce((prev: any, curr: Channel) => {
+        if (curr.tones) {
+          return {
+            ...prev,
+            [curr.id]: curr.tones.sentences_tone
+              ? curr.tones.sentences_tone
+              : [curr.tones.document_tone]
+          }
+        }
+      }, {})
+      let messWithTones = getMess().map(messObj => ({
+        ...messObj,
+        tone: tonesById[messObj.id].shift()
+      }))
+      populateMessWithTones(messWithTones)
+      // context.io.emit()
+    }
   },
 
   emit: {

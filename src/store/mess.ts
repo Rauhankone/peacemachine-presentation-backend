@@ -19,6 +19,15 @@ export const createMess = (messObj: Mess) => {
  */
 export const getMess = (): Mess[] => db.get(MESS_KEY).value()
 
+export const messStore = db.get(MESS_KEY)
+
+export const populateMessWithTones = (newMess: Mess[]) => {
+  db
+    .get(MESS_KEY)
+    .set('tones', newMess)
+    .write()
+}
+
 export const updateMess = (
   id: Mess['id'],
   propName: keyof Mess,
