@@ -97,7 +97,9 @@ export const socketControllers: SocketControllers = {
     },
 
     mergeTonesToMess(context: eventListenerContext) {
-      let tonesById = getBulkChannels().reduce((prev: any, curr: Channel) => {
+      let tonesById: {
+        [key: string]: ToneAnalyzerV3.SentenceAnalysis[]
+      } = getBulkChannels().reduce((prev: any, curr: Channel) => {
         if (curr.tones) {
           return {
             ...prev,
@@ -114,13 +116,17 @@ export const socketControllers: SocketControllers = {
           console.log('Analyzed sentence does not match the one in mess:')
           console.log(
             `Transcript: ${messObj.transcript} \nAnalyezed sentence: ${
-              tonesById[messObj.id].text
+              tonesById[messObj.id][0].text
             }`
+          )
+        } else {
+          console.log(
+            'all is well in the world. The birds are singing beautiful songs of happiness as the mess array and tone texts live in harmony... for now'
           )
         }
         return {
           ...messObj,
-          tones: tonesById[messObj.id].shift()
+          tones: (tonesById as any)[messObj.id].shift()
         }
       })
       populateMessWithTones(messWithTones)
