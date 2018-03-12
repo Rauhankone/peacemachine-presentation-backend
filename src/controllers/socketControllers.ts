@@ -69,7 +69,8 @@ export const socketControllers: SocketControllers = {
         id: context.socket.id,
         timestamp: Date.now(),
         transcript: context.data.transcript,
-        confidence: context.data.confidence
+        confidence: context.data.confidence,
+        tones: null
       })
 
       updateChannel(
@@ -106,10 +107,22 @@ export const socketControllers: SocketControllers = {
           }
         }
       }, {})
-      let messWithTones = getMess().map(messObj => ({
-        ...messObj,
-        tone: tonesById[messObj.id].shift()
-      }))
+      let messWithTones = getMess().map((messObj: Mess, index: number) => {
+        if (
+          messObj.transcript.trim() !== tonesById[messObj.id][0].text.trim()
+        ) {
+          console.log('Analyzed sentence does not match the one in mess:')
+          console.log(
+            `Transcript: ${messObj.transcript} \nAnalyezed sentence: ${
+              tonesById[messObj.id].text
+            }`
+          )
+        }
+        return {
+          ...messObj,
+          tones: tonesById[messObj.id].shift()
+        }
+      })
       populateMessWithTones(messWithTones)
       // context.io.emit()
     }
