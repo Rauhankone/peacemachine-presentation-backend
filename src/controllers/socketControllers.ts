@@ -13,6 +13,10 @@ import {
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 import { getSlides, updateActiveSlide } from '../store/slides'
 
+const emitWarning = (connectionBroadcast: any, payload: any) => {
+  connectionBroadcast.emit('error', payload)
+}
+
 // TODO: Move this out of here
 const toneAnalyzer = new ToneAnalyzerV3({
   username: process.env.W_TA_USERNAME,
@@ -49,6 +53,12 @@ export const socketControllers: SocketControllers = {
               if (err) return console.error(err)
 
               updateChannel(context.socket.id, 'tones', toneAnalysis)
+
+              updateChannel(context.socket.id, 'recording', 'analyzed')
+              context.socket.broadcast.emit('channelRecordingChange', {
+                recording: 'analyzed',
+                id: context.socket.id
+              })
 
               context.socket.emit('toneAnalyzeComplete', {
                 id: context.socket.id,
