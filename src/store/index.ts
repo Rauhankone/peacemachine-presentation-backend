@@ -22,6 +22,21 @@ const defaultState: ApplicationGlobalState = {
         name: 'zoom tool'
       },
       {
+        name: 'topword 1'
+      },
+      {
+        name: 'topword 2'
+      },
+      {
+        name: 'topword 3'
+      },
+      {
+        name: 'topword 4'
+      },
+      {
+        name: 'topword 5'
+      },
+      {
         name: 'loop'
       }
     ],
