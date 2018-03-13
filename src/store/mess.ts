@@ -22,7 +22,12 @@ export const getMess = (): Mess[] => db.get(MESS_KEY).value()
 export const messStore = db.get(MESS_KEY)
 
 export const populateMessWithTones = (newMess: Mess[]) => {
-  db.set('mess', newMess).write()
+  if (!newMess.includes(undefined)) {
+    db.set('mess', newMess).write()
+    return
+  }
+
+  return console.log('no mess provided!')
 }
 
 export const updateMess = (

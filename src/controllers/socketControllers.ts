@@ -109,6 +109,7 @@ export const socketControllers: SocketControllers = {
           }
         }
       }, {})
+
       let messWithTones = getMess().map((messObj: Mess, index: number) => {
         if (!tonesById[messObj.id]) {
           console.log(`Tone analysis for ${messObj.transcript} does not exist!`)
@@ -133,8 +134,10 @@ export const socketControllers: SocketControllers = {
           tones: (tonesById as any)[messObj.id].shift()
         }
       })
+
       populateMessWithTones(messWithTones)
-      // context.io.emit()
+
+      context.io.emit('messFinalized', { mess: getMess() })
     }
   },
 
