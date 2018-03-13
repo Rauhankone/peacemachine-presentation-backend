@@ -110,14 +110,18 @@ export const socketControllers: SocketControllers = {
         }
       }, {})
       let messWithTones = getMess().map((messObj: Mess, index: number) => {
+        if (!tonesById[messObj.id]) {
+          console.log(`Tone analysis for ${messObj.transcript} does not exist!`)
+          return
+        }
         if (
           messObj.transcript.trim() !== tonesById[messObj.id][0].text.trim()
         ) {
           console.log('Analyzed sentence does not match the one in mess:')
           console.log(
-            `Transcript: ${messObj.transcript} \nAnalyezed sentence: ${
+            `Transcript: "${messObj.transcript}" \nAnalyezed sentence: "${
               tonesById[messObj.id][0].text
-            }`
+            }"`
           )
         } else {
           console.log(
