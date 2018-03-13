@@ -43,29 +43,36 @@ export const socketControllers: SocketControllers = {
 
       if (context.data.recording === 'finished') {
         let channel = getChannel(context.socket.id)
-        if (channel)
-          toneAnalyzer.tone(
-            {
-              tone_input: channel.transcript,
-              content_type: 'text/plain'
-            },
-            (err: any, toneAnalysis: ToneAnalyzerV3.ToneAnalysis) => {
-              if (err) return console.error(err)
-
-              updateChannel(context.socket.id, 'tones', toneAnalysis)
-
-              updateChannel(context.socket.id, 'recording', 'analyzed')
-              context.socket.broadcast.emit('channelRecordingChange', {
-                recording: 'analyzed',
-                id: context.socket.id
-              })
-
-              context.socket.emit('toneAnalyzeComplete', {
-                id: context.socket.id,
-                analyzeObject: toneAnalysis
-              })
-            }
+        if (channel) var sentenceArr = channel.transcript.split('.')
+        if (!sentenceArr || sentenceArr.length > 100) {
+          console.error(
+            `\nTone analyzer can only analyze 100 sentences in a single request, but got ${
+              sentenceArr.length
+            }!\n`
           )
+          return
+        }
+        toneAnalyzer.tone(
+          {
+            tone_input: channel.transcript,
+            content_type: 'text/plain'
+          },
+          (err: any, toneAnalysis: ToneAnalyzerV3.ToneAnalysis) => {
+            if (err) return console.error(err)
+            updateChannel(context.socket.id, 'tones', toneAnalysis)
+
+            updateChannel(context.socket.id, 'recording', 'analyzed')
+            context.socket.broadcast.emit('channelRecordingChange', {
+              recording: 'analyzed',
+              id: context.socket.id
+            })
+
+            context.socket.emit('toneAnalyzeComplete', {
+              id: context.socket.id,
+              analyzeObject: toneAnalysis
+            })
+          }
+        )
       }
     },
 
@@ -121,8 +128,12 @@ export const socketControllers: SocketControllers = {
       }, {})
 
       let messWithTones = getMess().map((messObj: Mess, index: number) => {
+        if (!tonesById) {
+          console.log('tonesById does not exist!')
+          return
+        }
         if (!tonesById[messObj.id]) {
-          console.log(`Tone analysis for ${messObj.transcript} does not exist!`)
+          console.log(`Tone analysis for channel ${messObj.id} does not exist!`)
           return
         }
         if (
@@ -130,13 +141,13 @@ export const socketControllers: SocketControllers = {
         ) {
           console.log('Analyzed sentence does not match the one in mess:')
           console.log(
-            `Transcript: "${messObj.transcript}" \nAnalyezed sentence: "${
+            `Transcript: "${messObj.transcript}" \nAnalyzed sentence: "${
               tonesById[messObj.id][0].text
             }"`
           )
         } else {
           console.log(
-            'all is well in the world. The birds are singing beautiful songs of happiness as the mess array and tone texts live in harmony... for now'
+            `Sentence "${messObj.transcript} has a matching analyzed sentence."`
           )
         }
         return {
