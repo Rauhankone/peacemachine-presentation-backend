@@ -4,7 +4,12 @@ import {
   getChannel,
   getBulkChannels
 } from '../store/channels'
-import { createMess, getMess, updateMess } from '../store/mess'
+import {
+  createMess,
+  getMess,
+  updateMess,
+  populateMessWithTones
+} from '../store/mess'
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 import { getSlides, updateActiveSlide } from '../store/slides'
 
@@ -64,7 +69,8 @@ export const socketControllers: SocketControllers = {
         id: context.socket.id,
         timestamp: Date.now(),
         transcript: context.data.transcript,
-        confidence: context.data.confidence
+        confidence: context.data.confidence,
+        tones: null
       })
 
       updateChannel(
@@ -90,7 +96,49 @@ export const socketControllers: SocketControllers = {
       })
     },
 
-    mergeTonesToMess(context: eventListenerContext) {}
+    mergeTonesToMess(context: eventListenerContext) {
+      let tonesById: {
+        [key: string]: ToneAnalyzerV3.SentenceAnalysis[]
+      } = getBulkChannels().reduce((prev: any, curr: Channel) => {
+        if (curr.tones) {
+          return {
+            ...prev,
+            [curr.id]: curr.tones.sentences_tone
+              ? curr.tones.sentences_tone
+              : [curr.tones.document_tone]
+          }
+        }
+      }, {})
+
+      let messWithTones = getMess().map((messObj: Mess, index: number) => {
+        if (!tonesById[messObj.id]) {
+          console.log(`Tone analysis for ${messObj.transcript} does not exist!`)
+          return
+        }
+        if (
+          messObj.transcript.trim() !== tonesById[messObj.id][0].text.trim()
+        ) {
+          console.log('Analyzed sentence does not match the one in mess:')
+          console.log(
+            `Transcript: "${messObj.transcript}" \nAnalyezed sentence: "${
+              tonesById[messObj.id][0].text
+            }"`
+          )
+        } else {
+          console.log(
+            'all is well in the world. The birds are singing beautiful songs of happiness as the mess array and tone texts live in harmony... for now'
+          )
+        }
+        return {
+          ...messObj,
+          tones: (tonesById as any)[messObj.id].shift()
+        }
+      })
+
+      populateMessWithTones(messWithTones)
+
+      context.io.emit('messFinalized', { mess: getMess() })
+    }
   },
 
   emit: {
