@@ -11,6 +11,7 @@ interface Channel {
 
 interface Slide {
   name: string
+  child?: boolean
 }
 
 interface Slides {

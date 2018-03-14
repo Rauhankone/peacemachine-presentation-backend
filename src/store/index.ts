@@ -10,34 +10,44 @@ const defaultState: ApplicationGlobalState = {
   slides: {
     allSlides: [
       {
-        name: 'live text'
+        name: 'live text',
+        child: false
       },
       {
-        name: 'sentiment analysis'
+        name: 'confidence',
+        child: false
       },
       {
-        name: 'word cloud'
+        name: 'intensity',
+        child: false
       },
       {
-        name: 'zoom tool'
+        name: 'top words',
+        child: false
       },
       {
-        name: 'topword 1'
+        name: 'topword 1',
+        child: true
       },
       {
-        name: 'topword 2'
+        name: 'topword 2',
+        child: true
       },
       {
-        name: 'topword 3'
+        name: 'topword 3',
+        child: true
       },
       {
-        name: 'topword 4'
+        name: 'topword 4',
+        child: true
       },
       {
-        name: 'topword 5'
+        name: 'topword 5',
+        child: true
       },
       {
-        name: 'loop'
+        name: 'loop',
+        child: false
       }
     ],
     activeSlide: null

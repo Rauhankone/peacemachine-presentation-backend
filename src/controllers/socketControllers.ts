@@ -44,9 +44,9 @@ export const socketControllers: SocketControllers = {
       if (context.data.recording === 'finished') {
         let channel = getChannel(context.socket.id)
         if (channel) var sentenceArr = channel.transcript.split('.')
-        if (!sentenceArr || sentenceArr.length > 100) {
+        if (sentenceArr.length > 100) {
           console.error(
-            `\nTone analyzer can only analyze 100 sentences in a single request, but got ${
+            `\nTone Analyzer can only analyze 100 sentences in a single request, but got ${
               sentenceArr.length
             }!\n`
           )
