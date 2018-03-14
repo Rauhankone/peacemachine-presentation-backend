@@ -47,7 +47,7 @@ export const socketControllers: SocketControllers = {
         if (!sentenceArr) return
         if (sentenceArr.length > 100) {
           console.error(
-            `\nTone analyzer can only analyze 100 sentences in a single request, but got ${
+            `\nTone Analyzer can only analyze 100 sentences in a single request, but got ${
               sentenceArr.length
             }!\n`
           )
