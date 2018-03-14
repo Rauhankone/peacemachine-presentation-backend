@@ -84,7 +84,12 @@ export const socketControllers: SocketControllers = {
       })
 
       createMess({
-        id: context.socket.id,
+        id:
+          context.socket.id +
+          '_' +
+          Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1),
         timestamp: Date.now(),
         transcript: context.data.transcript,
         confidence: context.data.confidence,
@@ -135,6 +140,11 @@ export const socketControllers: SocketControllers = {
         }
         if (!tonesById[messObj.id]) {
           console.log(`Tone analysis for channel ${messObj.id} does not exist!`)
+          return
+        }
+        if (tonesById[messObj.id].length == 0) {
+          console.log('The tones array is empty for a mess:')
+          console.log(`Transcript: "${messObj.transcript}"`)
           return
         }
         if (
