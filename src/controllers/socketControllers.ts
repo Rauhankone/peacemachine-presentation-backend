@@ -134,28 +134,48 @@ export const socketControllers: SocketControllers = {
       }, {})
 
       let messWithTones = getMess().map((messObj: Mess, index: number) => {
+        let channelId = messObj.id.substring(0, messObj.id.length - 5)
+
+        // Tone analysis has not been done
         if (!tonesById) {
           console.log('tonesById does not exist!')
           return
         }
-        if (!tonesById[messObj.id]) {
-          console.log(`Tone analysis for channel ${messObj.id} does not exist!`)
+
+        // This channel has not been analyzed
+        if (!tonesById[channelId]) {
+          console.log(`Tone analysis for channel ${channelId} does not exist!`)
           return
         }
-        if (tonesById[messObj.id].length == 0) {
-          console.log('The tones array is empty for a mess:')
-          console.log(`Transcript: "${messObj.transcript}"`)
+
+        // This channel's analysis has been empty
+        if (tonesById[channelId].length == 0) {
+          console.log(`The tones array is empty for a channel: ${channelId}`)
           return
         }
-        if (
-          messObj.transcript.trim() !== tonesById[messObj.id][0].text.trim()
-        ) {
-          console.log('Analyzed sentence does not match the one in mess:')
-          console.log(
-            `Transcript: "${messObj.transcript}" \nAnalyzed sentence: "${
-              tonesById[messObj.id][0].text
-            }"`
+
+        // Find correct sentence
+        let sentenceTones = tonesById[channelId]
+          .filter(tones => tones.sentence_id !== undefined)
+          .filter(tones =>
+            tones.text.trim().includes(messObj.transcript.trim())
           )
+
+        if (sentenceTones.length == 0) {
+          console.log(
+            `No matching mess for the sentence: "${messObj.transcript}"`
+          )
+
+          // Only document tones available for this channel
+          if (tonesById[channelId][0].sentence_id === undefined) {
+            console.log(
+              `Only document tones available for channel: ${channelId}`
+            )
+            sentenceTones = tonesById[channelId]
+          } else {
+            console.log(`Could not find tones for mess. Skipping.`)
+            return
+          }
         } else {
           console.log(
             `Sentence "${messObj.transcript} has a matching analyzed sentence."`
@@ -163,7 +183,7 @@ export const socketControllers: SocketControllers = {
         }
         return {
           ...messObj,
-          tones: (tonesById as any)[messObj.id].shift()
+          tones: sentenceTones[0]
         }
       })
 
