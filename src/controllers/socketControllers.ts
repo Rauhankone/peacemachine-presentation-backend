@@ -44,7 +44,7 @@ export const socketControllers: SocketControllers = {
       if (context.data.recording === 'finished') {
         let channel = getChannel(context.socket.id)
         if (channel) var sentenceArr = channel.transcript.split('.')
-        if (!sentenceArr) return
+        if (sentenceArr.length == 0) return
         if (sentenceArr.length > 100) {
           console.error(
             `\nTone Analyzer can only analyze 100 sentences in a single request, but got ${
@@ -162,23 +162,23 @@ export const socketControllers: SocketControllers = {
           )
 
         if (sentenceTones.length == 0) {
-          console.log(
+          console.warn(
             `No matching mess for the sentence: "${messObj.transcript}"`
           )
 
           // Only document tones available for this channel
           if (tonesById[channelId][0].sentence_id === undefined) {
-            console.log(
+            console.warn(
               `Only document tones available for channel: ${channelId}`
             )
             sentenceTones = tonesById[channelId]
           } else {
-            console.log(`Could not find tones for mess. Skipping.`)
+            console.warn(`Could not find tones for mess. Skipping.`)
             return
           }
         } else {
           console.log(
-            `Sentence "${messObj.transcript} has a matching analyzed sentence."`
+            `Sentence "${messObj.transcript}" has a matching analyzed sentence.`
           )
         }
         return {
