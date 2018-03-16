@@ -3,26 +3,51 @@ import nanoid from 'nanoid' // generates IDs
 import { Z_DEFAULT_COMPRESSION } from 'zlib'
 
 const defaultState: ApplicationGlobalState = {
-  discussions: [],
+  channels: [],
   currentStage: 'uninitalized',
   recording: false,
-  presentationSlide: 'livetext',
+  mess: [],
   slides: {
     allSlides: [
       {
-        name: 'live text'
+        name: 'live text',
+        child: false
       },
       {
-        name: 'sentiment analysis'
+        name: 'confidence',
+        child: false
       },
       {
-        name: 'word cloud'
+        name: 'intensity',
+        child: false
       },
       {
-        name: 'zoom tool'
+        name: 'top words',
+        child: false
       },
       {
-        name: 'loop'
+        name: 'topword 1',
+        child: true
+      },
+      {
+        name: 'topword 2',
+        child: true
+      },
+      {
+        name: 'topword 3',
+        child: true
+      },
+      {
+        name: 'topword 4',
+        child: true
+      },
+      {
+        name: 'topword 5',
+        child: true
+      },
+      {
+        name: 'loop',
+        child: false
       }
     ],
     activeSlide: null
@@ -32,4 +57,13 @@ const defaultState: ApplicationGlobalState = {
 // writes a default object shape if no file exist yet.
 export const initStore = () => db.defaults(defaultState).write()
 
-export * from './discussions'
+export const flushStore = () => {
+  let flushedState = defaultState
+  flushedState.slides.activeSlide = (db.get('slides') as any).activeSlide
+    ? (db.get('slides') as any).activeSlide
+    : 'live text'
+  db.setState(defaultState).write()
+}
+
+export * from './channels'
+export * from './mess'

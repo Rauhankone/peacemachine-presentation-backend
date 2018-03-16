@@ -13,5 +13,10 @@
       "*": ["node_modules/*", "src/types/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*",
+    "node_modules/watson-developer-cloud/tone-analyzer/v3-generated.d.ts"
+  ],
+
+  "exclude": []
 }

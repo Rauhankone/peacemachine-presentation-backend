@@ -3,8 +3,8 @@ import { Response, Request, NextFunction } from 'express'
 import * as watson from 'watson-developer-cloud'
 
 const auth: any = new watson.AuthorizationV1({
-  username: process.env.W_USERNAME,
-  password: process.env.W_PASSWORD,
+  username: process.env.W_STT_USERNAME,
+  password: process.env.W_STT_PASSWORD,
   url: 'https://stream.watsonplatform.net/speech-to-text/api'
 })
 

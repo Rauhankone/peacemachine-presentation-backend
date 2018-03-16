@@ -1,12 +1,12 @@
 import { Response, Request, NextFunction } from 'express'
-import { getDiscussion as discussion } from '../store/discussions'
+import { getChannel as channel } from '../store/channels'
 
 export const getDiscussion = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const discussionQuery = discussion(req.query.id)
+  const discussionQuery = channel(req.query.id)
 
   if (discussionQuery) {
     res.send(discussionQuery)

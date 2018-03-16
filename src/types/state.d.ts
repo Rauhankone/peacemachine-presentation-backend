@@ -1,27 +1,36 @@
-type DiscussionProps = keyof Discussion
+type ChannelProps = keyof Channel
 
-interface Discussion {
-  text: string
+interface Channel {
+  transcript: string
   wordCloud: any
-  tones: any
-  recording: boolean
+  tones: ToneAnalyzerV3.ToneAnalysis
+  recording: string
   candidate: boolean
   id: string
 }
 
 interface Slide {
   name: string
+  child?: boolean
 }
 
 interface Slides {
   allSlides: Slide[]
-  activeSlide: string
+  activeSlide: Slide['name']
+}
+
+interface Mess {
+  id: string
+  timestamp: number
+  transcript: string
+  confidence: number
+  tones?: ToneAnalyzerV3.SentenceAnalysis
 }
 
 interface ApplicationGlobalState {
-  discussions: Discussion[]
+  channels: Channel[]
   currentStage: string
   recording: boolean
-  presentationSlide: string
   slides: Slides
+  mess: Mess[]
 }
