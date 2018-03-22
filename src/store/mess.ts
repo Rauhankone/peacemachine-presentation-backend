@@ -27,7 +27,7 @@ export const populateMessWithTones = (newMess: Mess[]) => {
     return
   }
 
-  return console.log('no mess provided!')
+  return console.log("newMess had `undefined` values, couldn't replace mess!")
 }
 
 export const updateMess = (
