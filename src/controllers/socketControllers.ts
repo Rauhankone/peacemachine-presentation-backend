@@ -121,24 +121,14 @@ export const socketControllers: SocketControllers = {
     },
 
     finalizeMess(context: eventListenerContext) {
-      const tonesByChannelId: TonesByChannelId = getBulkChannels().reduce(
-        (
-          prevChannel: ToneAnalyzerV3.SentenceAnalysis,
-          currentChannel: Channel
-        ) => {
-          const { sentences_tone } = currentChannel.tones
-          return {
-            ...prevChannel,
-            [currentChannel.id]: sentences_tone
-          }
-        },
-        {}
-      )
+      const channels = getBulkChannels()
 
       populateMessWithTones(
         getMess().map((mess: Mess, index) => {
           const channelId = mess.id.substring(0, mess.id.length - 5)
-          const tones = tonesByChannelId[channelId].find(
+          const tones = find(channels, {
+            id: channelId
+          }).tones.sentences_tone.find(
             t => t.text.trim() === mess.transcript.trim()
           )
 
