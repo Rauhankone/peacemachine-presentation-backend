@@ -21,3 +21,5 @@
 //   document_tone: DocumentTone
 //   sentences_tone: SentencesTone[]
 // }
+
+type TonesByChannelId = { [key: string]: ToneAnalyzerV3.SentenceAnalysis[] }

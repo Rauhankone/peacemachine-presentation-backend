@@ -12,6 +12,7 @@ import {
 } from '../store/mess'
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 import { getSlides, updateActiveSlide } from '../store/slides'
+import { find } from 'lodash'
 
 const emitWarning = (connectionBroadcast: any, payload: any) => {
   connectionBroadcast.emit('error', payload)
@@ -119,6 +120,31 @@ export const socketControllers: SocketControllers = {
       })
     },
 
+    finalizeMess(context: eventListenerContext) {
+      const channels = getBulkChannels()
+
+      populateMessWithTones(
+        getMess().map((mess: Mess, index) => {
+          const channelId = mess.id.substring(0, mess.id.length - 5)
+          const tones = find(channels, {
+            id: channelId
+          }).tones.sentences_tone.find(
+            t => t.text.trim() === mess.transcript.trim()
+          )
+
+          return {
+            ...mess,
+            tones
+          }
+        })
+      )
+
+      context.io.emit('messFinalized', { mess: getMess() })
+    },
+
+    /**
+     * @desc WARNING: possibly deprecated
+     */
     mergeTonesToMess(context: eventListenerContext) {
       let tonesById: {
         [key: string]: ToneAnalyzerV3.SentenceAnalysis[]
