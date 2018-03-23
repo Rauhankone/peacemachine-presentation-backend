@@ -22,10 +22,6 @@ const defaultState: ApplicationGlobalState = {
         child: false
       },
       {
-        name: 'top words',
-        child: false
-      },
-      {
         name: 'topword 1',
         child: true
       },
@@ -43,6 +39,26 @@ const defaultState: ApplicationGlobalState = {
       },
       {
         name: 'topword 5',
+        child: true
+      },
+      {
+        name: 'topword 6',
+        child: true
+      },
+      {
+        name: 'topword 7',
+        child: true
+      },
+      {
+        name: 'topword 8',
+        child: true
+      },
+      {
+        name: 'topword 9',
+        child: true
+      },
+      {
+        name: 'topword 10',
         child: true
       },
       {
