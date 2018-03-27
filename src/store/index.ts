@@ -7,6 +7,7 @@ const defaultState: ApplicationGlobalState = {
   currentStage: 'uninitalized',
   recording: false,
   mess: [],
+  topWords: [],
   slides: {
     allSlides: [
       {
@@ -87,3 +88,4 @@ export const flushStore = () => {
 
 export * from './channels'
 export * from './mess'
+export * from './topwords'
