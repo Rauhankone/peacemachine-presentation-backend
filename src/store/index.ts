@@ -10,6 +10,10 @@ const defaultState: ApplicationGlobalState = {
   slides: {
     allSlides: [
       {
+        name: 'title',
+        child: false
+      },
+      {
         name: 'live text',
         child: false
       },
