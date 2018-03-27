@@ -13,6 +13,8 @@ import {
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 import { getSlides, updateActiveSlide } from '../store/slides'
 import { find } from 'lodash'
+import { getAllTopWords, createTopWords } from '../store'
+import { genTopWords } from '../utils/'
 
 const emitWarning = (connectionBroadcast: any, payload: any) => {
   connectionBroadcast.emit('error', payload)
@@ -123,9 +125,10 @@ export const socketControllers: SocketControllers = {
 
     finalizeMess(context: eventListenerContext) {
       const channels = getBulkChannels()
+      const mess = getMess()
 
       populateMessWithTones(
-        getMess().map((mess: Mess, index) => {
+        mess.map((mess: Mess, index) => {
           try {
             const channelId = mess.id.substring(0, mess.id.length - 5)
             const channelQuery = find(channels, {
@@ -154,7 +157,12 @@ export const socketControllers: SocketControllers = {
         })
       )
 
-      context.io.emit('messFinalized', { mess: getMess() })
+      createTopWords(genTopWords(mess))
+
+      context.io.emit('messFinalized', {
+        mess: getMess(),
+        topWords: getAllTopWords()
+      })
     },
 
     /**
@@ -240,7 +248,8 @@ export const socketControllers: SocketControllers = {
         id: context.socket.id,
         slides: getSlides(),
         channels: getBulkChannels(),
-        mess: getMess()
+        mess: getMess(),
+        topWords: getAllTopWords()
       }
     }
   }

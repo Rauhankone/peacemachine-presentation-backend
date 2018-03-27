@@ -27,10 +27,16 @@ interface Mess {
   tones?: ToneAnalyzerV3.SentenceAnalysis
 }
 
+interface TopWord {
+  word: any
+  freq: number
+}
+
 interface ApplicationGlobalState {
   channels: Channel[]
   currentStage: string
   recording: boolean
   slides: Slides
   mess: Mess[]
+  topWords: TopWord[]
 }
