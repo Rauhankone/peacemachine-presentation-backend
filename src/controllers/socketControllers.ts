@@ -133,7 +133,9 @@ export const socketControllers: SocketControllers = {
             })
             const tones = channelQuery.tones.sentences_tone
               ? channelQuery.tones.sentences_tone.find(
-                  t => t.text.trim() === mess.transcript.trim()
+                  t =>
+                    t.text.trim() === mess.transcript.trim() ||
+                    t.text.trim().includes(mess.transcript.trim())
                 )
               : null
 
