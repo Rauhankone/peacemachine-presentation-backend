@@ -105,6 +105,7 @@ export const socketControllers: SocketControllers = {
     },
 
     channelCandidacyChanged(context: eventListenerContext) {
+      console.log('channel appointed', context.data)
       updateChannel(context.data.id, 'candidate', context.data.candidate)
 
       context.io.emit('channelCandidacyUpdated', {
@@ -125,16 +126,28 @@ export const socketControllers: SocketControllers = {
 
       populateMessWithTones(
         getMess().map((mess: Mess, index) => {
-          const channelId = mess.id.substring(0, mess.id.length - 5)
-          const tones = find(channels, {
-            id: channelId
-          }).tones.sentences_tone.find(
-            t => t.text.trim() === mess.transcript.trim()
-          )
+          try {
+            const channelId = mess.id.substring(0, mess.id.length - 5)
+            const channelQuery = find(channels, {
+              id: channelId
+            })
+            const tones = channelQuery.tones.sentences_tone
+              ? channelQuery.tones.sentences_tone.find(
+                  t => t.text.trim() === mess.transcript.trim()
+                )
+              : null
 
-          return {
-            ...mess,
-            tones
+            return {
+              ...mess,
+              tones: tones ? tones : null
+            }
+          } catch (e) {
+            console.warn(e)
+
+            return {
+              ...mess,
+              tone: null
+            }
           }
         })
       )

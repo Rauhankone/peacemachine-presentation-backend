@@ -16,6 +16,7 @@ dotenv.config({ path: '.env' })
 import * as Home from './controllers/home'
 import * as Auth from './controllers/auth'
 import * as Discussion from './controllers/channels'
+import * as Documentation from './controllers/documentation'
 
 /**
  * Express configuration
@@ -39,5 +40,7 @@ app.options('/token', cors())
 app.get('/token', cors({ preflightContinue: true }), Auth.getToken)
 
 app.get('/discussion', cors(), Discussion.getDiscussion)
+
+app.get('/doc', cors(), Documentation.getUserDocumentation)
 
 export default app
