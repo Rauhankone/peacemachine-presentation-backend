@@ -1,4 +1,4 @@
-# User manual for the presentation
+# User Manual for the Presentation
 
 ## Appointing Channel for Presentation
 
