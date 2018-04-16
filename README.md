@@ -6,10 +6,11 @@
 
 <https://github.com/Rauhankone/peacemachine-presentation-backend/>
 
-This application handles all backend functionality of Peace Machine
-Presentation.
+This project handles backend functionality of the Peace Machine presentation,
+including communicating with IBM Watson and its analysis tools.
 
-Most notably connections to IBM Watson and analysis tools.
+Peacemachine-presentation-frontend is the frontend of the Peace Machine
+presentation.
 
 ## Setup
 
