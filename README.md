@@ -1,8 +1,15 @@
 # Peace Machine Presentation - Backend
 
-This application handles all backend functionality of Peace Machine Presentation. Most notably connections to IBM Watson and analysis tools.
+<http://www.understandingpeace.net/>
 
-**Milestone: Cajun**
+<https://github.com/Rauhankone/peacemachine-presentation-frontend/>
+
+<https://github.com/Rauhankone/peacemachine-presentation-backend/>
+
+This application handles all backend functionality of Peace Machine
+Presentation.
+
+Most notably connections to IBM Watson and analysis tools.
 
 ## Setup
 
