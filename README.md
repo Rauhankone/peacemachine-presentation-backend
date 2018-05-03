@@ -19,3 +19,13 @@ presentation.
 3.  Run `npm install` or `yarn`.
 4.  Run `npm run build-ts` or `yarn run build-ts`.
 5.  Run `npm run dev` or `yarn run dev`.
+
+## Contributors
+
+Contributors are listed in the CONTRIBUTORS.md file.
+
+Made by Digitalents with help from Futurice.
+
+<http://digitalents.munstadi.fi/en/>
+
+<https://futurice.com/>
