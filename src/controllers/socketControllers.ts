@@ -20,14 +20,6 @@ const emitWarning = (connectionBroadcast: any, payload: any) => {
   connectionBroadcast.emit('error', payload)
 }
 
-// TODO: Move this out of here
-const toneAnalyzer = new ToneAnalyzerV3({
-  username: process.env.W_TA_USERNAME,
-  password: process.env.W_TA_PASSWORD,
-  version_date: '2016-05-19',
-  url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
-})
-
 export const socketControllers: SocketControllers = {
   on: {
     channelCreated(context: eventListenerContext) {
@@ -38,6 +30,8 @@ export const socketControllers: SocketControllers = {
     },
 
     channelRecordingState(context: eventListenerContext) {
+      let toneAnalyzer
+
       updateChannel(context.socket.id, 'recording', context.data.recording)
       context.socket.broadcast.emit('channelRecordingChange', {
         recording: context.data.recording,
@@ -56,6 +50,15 @@ export const socketControllers: SocketControllers = {
           )
           return
         }
+
+        // Request new API token
+        toneAnalyzer = new ToneAnalyzerV3({
+          username: process.env.W_TA_USERNAME,
+          password: process.env.W_TA_PASSWORD,
+          version_date: '2016-05-19',
+          url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
+        })
+
         toneAnalyzer.tone(
           {
             tone_input: channel.transcript,
