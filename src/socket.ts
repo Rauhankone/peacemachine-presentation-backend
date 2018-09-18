@@ -1,7 +1,6 @@
-import * as socketIo from 'socket.io'
 import { Server } from 'http'
 import { socketControllers } from './controllers/socketControllers'
-import { updateChannel, removeChannels, getBulkChannels } from './store'
+import { removeChannels } from './store'
 import { getFunName } from './utils'
 
 // export const io = socketIo(server)
@@ -13,11 +12,7 @@ export default class AppSocket {
     this.init()
   }
 
-  private init() {
-    this.createMiddlewares()
-    this.createEvents(socketControllers)
-  }
-
+  // tslint:disable:no-shadowed-variable
   public createEvents(socketControllers?: SocketControllers) {
     this.connection.on('connection', (socket: SocketIO.Socket) => {
       console.log(
@@ -30,8 +25,8 @@ export default class AppSocket {
       // }
 
       if (socketControllers.on) {
-        //listen for events
-        for (let [eventName, eventListener] of Object.entries(
+        // listen for events
+        for (const [eventName, eventListener] of Object.entries(
           socketControllers.on
         )) {
           socket.on(eventName, (data: any) => {
@@ -47,7 +42,7 @@ export default class AppSocket {
 
       if (socketControllers.emit) {
         // broadcast events
-        for (let [eventName, eventHandler] of Object.entries(
+        for (const [eventName, eventHandler] of Object.entries(
           socketControllers.emit
         )) {
           socket.emit(
@@ -58,7 +53,7 @@ export default class AppSocket {
       }
 
       // common disconnect events emmited by the socket
-      for (let ds of ['disconnect', 'connect_timeout', 'error'] as string[]) {
+      for (const ds of ['disconnect', 'connect_timeout', 'error'] as string[]) {
         socket.on(ds, (event: any) => {
           console.log(socket.handshake.query.viewName)
           if (socket.handshake.query.viewName === 'input') {
@@ -75,6 +70,11 @@ export default class AppSocket {
         })
       }
     })
+  }
+
+  private init() {
+    this.createMiddlewares()
+    this.createEvents(socketControllers)
   }
 
   private createMiddlewares() {

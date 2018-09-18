@@ -11,7 +11,9 @@ const auth: any = new watson.AuthorizationV1({
 const getAuthToken = () => {
   return new Promise((resolve, reject) => {
     auth.getToken((err: any, token: any) => {
-      if (!token) return reject(err)
+      if (!token) {
+        return reject(err)
+      }
 
       return resolve(token)
     })

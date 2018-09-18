@@ -1,14 +1,9 @@
-import dotenv from 'dotenv'
-
-import express from 'express'
-import path from 'path'
-import favicon from 'serve-favicon'
-import logger from 'morgan'
-import cookieParser from 'cookie-parser'
-import bodyParser from 'body-parser'
-import cors from 'cors'
-
-dotenv.config({ path: '.env' })
+import * as express from 'express'
+import * as path from 'path'
+import * as logger from 'morgan'
+import * as cookieParser from 'cookie-parser'
+import * as bodyParser from 'body-parser'
+import * as cors from 'cors'
 
 /**
  * Controllers a.k.a route handlers

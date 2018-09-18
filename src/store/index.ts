@@ -1,6 +1,4 @@
 import db from './db'
-import nanoid from 'nanoid' // generates IDs
-import { Z_DEFAULT_COMPRESSION } from 'zlib'
 
 const defaultState: ApplicationGlobalState = {
   channels: [],
@@ -79,7 +77,7 @@ const defaultState: ApplicationGlobalState = {
 export const initStore = () => db.defaults(defaultState).write()
 
 export const flushStore = () => {
-  let flushedState = defaultState
+  const flushedState = defaultState
   flushedState.slides.activeSlide = (db.get('slides') as any).activeSlide
     ? (db.get('slides') as any).activeSlide
     : 'live text'

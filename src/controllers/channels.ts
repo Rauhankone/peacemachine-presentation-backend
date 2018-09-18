@@ -17,8 +17,8 @@ export const getDiscussion = (
   }
 }
 
-export const getAllDiscussion = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {}
+// export const getAllDiscussion = (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {}

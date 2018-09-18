@@ -1,6 +1,6 @@
-import nanoid from 'nanoid'
+import nanoid = require('nanoid')
 import KeywordExtractor from 'keyword-extractor'
-import _ from 'lodash'
+import * as _ from 'lodash'
 
 export function rando(arr: string[]) {
   return arr[Math.floor(Math.random() * arr.length)]
