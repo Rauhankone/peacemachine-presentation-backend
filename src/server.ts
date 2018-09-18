@@ -12,7 +12,7 @@ if (env.error) {
 
 import app from './app'
 import { Server } from 'http'
-import * as socketIo from 'socket.io'
+import socketIo from 'socket.io'
 import { initStore, flushStore } from './store'
 
 import AppSocket from './socket'

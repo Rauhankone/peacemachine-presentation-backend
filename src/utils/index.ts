@@ -1,5 +1,5 @@
 import nanoid from 'nanoid'
-import * as _ from 'lodash'
+import _ from 'lodash'
 
 import KeywordExtractor = require('keyword-extractor')
 

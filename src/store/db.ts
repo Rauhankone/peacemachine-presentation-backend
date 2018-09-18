@@ -1,6 +1,6 @@
-import * as low from 'lowdb'
+import low from 'lowdb'
 // tslint:disable:no-submodule-imports
-import * as FileSync from 'lowdb/adapters/FileSync'
+import FileSync from 'lowdb/adapters/FileSync'
 
 const adapter = new FileSync('db.json')
 
