@@ -56,7 +56,7 @@ export const getChannel = (id: Channel['id']): Channel =>
   db
     .get(CHANNELS_KEY)
     .find({ id })
-    .value()
+    .value() as Channel
 
 /**
  * @desc Gets all channel objects based on criteria.
@@ -69,7 +69,7 @@ export const getBulkChannels = (
     return db
       .get(CHANNELS_KEY)
       .filter(criteria)
-      .value()
+      .value() as Channel[]
   }
 
   return db.get(CHANNELS_KEY).value()
