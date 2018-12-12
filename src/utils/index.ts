@@ -1,6 +1,7 @@
 import nanoid from 'nanoid'
-import KeywordExtractor from 'keyword-extractor'
 import _ from 'lodash'
+
+import KeywordExtractor = require('keyword-extractor')
 
 export function rando(arr: string[]) {
   return arr[Math.floor(Math.random() * arr.length)]
@@ -84,7 +85,6 @@ export function getFunName() {
 
 export const fakeChannelData = () => {
   // const id = nanoid()
-
   // console.log(id)
   return {
     id: nanoid(),
@@ -109,7 +109,7 @@ export function genTopWords(mess: Mess[]) {
   const topWords: TopWord[] = _.reverse(
     _.slice(
       _.sortBy(
-        _.map(keywords, (w, i) => ({
+        _.map(keywords, (w, i: number) => ({
           word: w,
           freq: freqs[i]
         })),

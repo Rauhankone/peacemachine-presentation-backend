@@ -4,7 +4,6 @@
     "esModuleInterop": true,
     "target": "es6",
     "lib": ["es2015", "es2016", "dom", "esnext"],
-    "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
@@ -16,7 +15,5 @@
   "include": [
     "src/**/*",
     "node_modules/watson-developer-cloud/tone-analyzer/v3-generated.d.ts"
-  ],
-
-  "exclude": []
+  ]
 }

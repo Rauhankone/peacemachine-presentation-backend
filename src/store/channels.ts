@@ -17,8 +17,7 @@ export const createChannel = (id: Channel['id']) => {
     id
   }
 
-  db
-    .get(CHANNELS_KEY)
+  db.get(CHANNELS_KEY)
     .push(initChannel)
     .write()
 }
@@ -32,8 +31,7 @@ export const updateChannel = (
   value: any
 ) => {
   console.log('updated discussion')
-  db
-    .get(CHANNELS_KEY)
+  db.get(CHANNELS_KEY)
     .find({ id })
     .set(propName, value)
     .write()
@@ -45,8 +43,7 @@ export const updateChannel = (
  */
 export const removeChannels = (criteria: { [key in keyof Channel]?: any }) => {
   console.log('remove discussions')
-  db
-    .get(CHANNELS_KEY)
+  db.get(CHANNELS_KEY)
     .remove(criteria)
     .write()
 }
@@ -59,7 +56,7 @@ export const getChannel = (id: Channel['id']): Channel =>
   db
     .get(CHANNELS_KEY)
     .find({ id })
-    .value()
+    .value() as Channel
 
 /**
  * @desc Gets all channel objects based on criteria.
@@ -68,11 +65,12 @@ export const getChannel = (id: Channel['id']): Channel =>
 export const getBulkChannels = (
   criteria?: { [key in keyof Channel]?: any }
 ): Channel[] => {
-  if (criteria)
+  if (criteria) {
     return db
       .get(CHANNELS_KEY)
       .filter(criteria)
-      .value()
+      .value() as Channel[]
+  }
 
   return db.get(CHANNELS_KEY).value()
 }
